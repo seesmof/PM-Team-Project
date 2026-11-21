@@ -1,9 +1,43 @@
 {% extends "base.html" %}
 
 {% block title %}
-Головна сторінка
+Статус клієнтів
 {% endblock %}
 
 {% block content %}
-Тут вміст сторінки...
+<a href="{% url "index" %}">Додому</a>
+<h1>Статус клієнтів</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Ім'я</th>
+      <th>Рівень стресу</th>
+      <th>Кількість кліків</th>
+      <th>Швидкість натискання</th>
+      <th>Остання актвність</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for user in users %}
+      <tr>
+        <td>{{ user.id }}</td>
+        <td>{{ user.name }}</td>
+        <td>
+          {% if user.stress_level == "low" %}
+            Низький  
+          {% elif user.stress_level == "medium" %}
+            Середній
+          {% else %}
+            Високий
+          {% endif %}
+        </td>
+        <td>{{ user.total_clicks }}</td>
+        <td>{{ user.average_clicking_speed }}</td>
+        <td>{{ user.last_activity|date:"d.m.Y" }}</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
 {% endblock %}

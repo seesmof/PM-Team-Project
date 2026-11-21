@@ -5,6 +5,11 @@ from django.shortcuts import render
 from clicks.models import Client, StressLevel
 
 
+def index(request: HttpRequest) -> HttpResponse:
+    # Render the template.
+    return render(request=request, template_name="clicks/index.html", context={})
+
+
 def status(request: HttpRequest) -> HttpResponse:
     # Declare mock data with three users of randomly generated data.
     users_test_data: list[Client] = [
@@ -17,7 +22,7 @@ def status(request: HttpRequest) -> HttpResponse:
             last_activity=datetime.now(),
         ),
         Client(
-            id=1,
+            id=2,
             name="Noah Carter",
             stress_level=StressLevel.medium,
             total_clicks=387,
@@ -25,7 +30,7 @@ def status(request: HttpRequest) -> HttpResponse:
             last_activity=datetime.now(),
         ),
         Client(
-            id=1,
+            id=3,
             name="Danny Wright",
             stress_level=StressLevel.high,
             total_clicks=779,
@@ -38,4 +43,5 @@ def status(request: HttpRequest) -> HttpResponse:
         "users": users_test_data,
     }
 
+    # Render the template.
     return render(request=request, template_name="clicks/status.html", context=context)
