@@ -1,6 +1,7 @@
 from datetime import datetime
-from django.http import HttpRequest, HttpResponse, JsonResponse
+from django.http import HttpRequest, HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import render
+from django.urls import reverse
 
 from .models import Client
 from .actions import seed_data
@@ -14,9 +15,14 @@ def index(request: HttpRequest) -> HttpResponse:
 
 def status(request: HttpRequest) -> HttpResponse:
     # Fill in the database with 3 random objects unless already created
-    seed_data()
+    try:
+        clients = Client.objects.all()
+        if not clients:
+            seed_data()
+    except:
+        pass
     # Define context and add the mock data to it.
-    context = {"users": Client.objects.all()}
+    context = {"users": clients or Client.objects.all() or {}}
     # Render the template.
     return render(request=request, template_name="clicks/status.html", context=context)
 
@@ -65,3 +71,9 @@ def totals(request: HttpRequest):
 
     # Render the template
     return render(request=request, template_name="clicks/totals.html", context=context)
+
+
+def delete_client(request: HttpRequest, id: int):
+    client = Client.objects.get(pk=id)
+    client.delete()
+    return HttpResponseRedirect(reverse("status"))
