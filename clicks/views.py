@@ -74,6 +74,9 @@ def totals(request: HttpRequest):
 
 
 def delete_client(request: HttpRequest, id: int):
+    # Get an object with a passed primary key
     client = Client.objects.get(pk=id)
+    # Delete the object
     client.delete()
+    # Redirect to the status page
     return HttpResponseRedirect(reverse("status"))
