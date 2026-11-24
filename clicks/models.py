@@ -1,21 +1,10 @@
-from datetime import datetime
-from enum import StrEnum
-
+from django.contrib.auth.models import User
 from django.db import models
-from dataclasses import dataclass
 
 
-class StressLevel(StrEnum):
-    low = "low"
-    medium = "medium"
-    high = "high"
-
-
-@dataclass
-class Client:
-    id: int | None
-    name: str
-    stress_level: StressLevel = StressLevel.low
-    total_clicks: int = 0
-    average_clicking_speed: float = 0.0
-    last_activity: datetime | None = None
+class Client(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    full_name = models.CharField(max_length=255)
+    total_clicks = models.PositiveBigIntegerField()
+    average_clicking_speed = models.FloatField()
+    last_activity = models.DateTimeField(auto_now=True)

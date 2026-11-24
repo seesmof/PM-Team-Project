@@ -11,7 +11,6 @@
 <table>
   <thead>
     <tr>
-      <th>ID</th>
       <th>Ім'я</th>
       <th>Рівень стресу</th>
       <th>Кількість кліків</th>
@@ -22,8 +21,7 @@
   <tbody>
     {% for user in users %}
       <tr>
-        <td>{{ user.id }}</td>
-        <td>{{ user.name }}</td>
+        <td>{{ user.full_name }}</td>
         <td>
           {% if user.stress_level == "low" %}
             Низький  
