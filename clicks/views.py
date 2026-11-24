@@ -21,5 +21,15 @@ def status(request: HttpRequest) -> HttpResponse:
     return render(request=request, template_name="clicks/status.html", context=context)
 
 
-def totals(requets: HttpRequest):
-    return JsonResponse({})
+def totals(request: HttpRequest):
+    all_clients = list(Client.objects.all())
+    total_clicks = sum(client.total_clicks for client in all_clients)
+    average_clicking_speed = sum(
+        client.average_clicking_speed for client in all_clients
+    ) / len(all_clients)
+
+    context = {
+        "total_clicks": total_clicks,
+        "average_clicking_speed": average_clicking_speed,
+    }
+    return render(request=request, template_name="clicks/totals.html", context=context)

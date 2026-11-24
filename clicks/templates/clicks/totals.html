@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}
+Узагальнені дані про клієнтів
+{% endblock %}
+
+{% block content %}
+<a href="{% url "index" %}">Додому</a>
+<h1>Узагальнені дані про клієнтів</h1>
+
+<ul>
+  <li>Загальна кількість кліків: {{ total_clicks }}</li>
+  <li>Середня швидкість натискання: {{ average_clicking_speed }}</li>
+</ul>
+{% endblock %}
