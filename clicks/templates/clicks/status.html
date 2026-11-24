@@ -11,31 +11,21 @@
 <table>
   <thead>
     <tr>
-      <th>ID</th>
       <th>Ім'я</th>
-      <th>Рівень стресу</th>
       <th>Кількість кліків</th>
       <th>Швидкість натискання</th>
       <th>Остання актвність</th>
+      <th>Дії</th>
     </tr>
   </thead>
   <tbody>
     {% for user in users %}
       <tr>
-        <td>{{ user.id }}</td>
-        <td>{{ user.name }}</td>
-        <td>
-          {% if user.stress_level == "low" %}
-            Низький  
-          {% elif user.stress_level == "medium" %}
-            Середній
-          {% else %}
-            Високий
-          {% endif %}
-        </td>
+        <td>{{ user.full_name }}</td>
         <td>{{ user.total_clicks }}</td>
         <td>{{ user.average_clicking_speed }}</td>
         <td>{{ user.last_activity|date:"d.m.Y" }}</td>
+        <td><a href="{% url "delete" id=user.id %}">Видалити</a></td>
       </tr>
     {% endfor %}
   </tbody>

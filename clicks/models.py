@@ -1,21 +1,12 @@
-from datetime import datetime
-from enum import StrEnum
-
+from django.contrib.auth.models import User
 from django.db import models
-from dataclasses import dataclass
 
 
-class StressLevel(StrEnum):
-    low = "low"
-    medium = "medium"
-    high = "high"
+class Client(models.Model):
+    full_name = models.CharField(max_length=255)
+    total_clicks = models.PositiveBigIntegerField()
+    average_clicking_speed = models.FloatField()
+    last_activity = models.DateTimeField(auto_now=True)
 
-
-@dataclass
-class Client:
-    id: int | None
-    name: str
-    stress_level: StressLevel = StressLevel.low
-    total_clicks: int = 0
-    average_clicking_speed: float = 0.0
-    last_activity: datetime | None = None
+    def __str__(self):
+        return f"{self.full_name} наклікав {self.total_clicks} разів, з середньою швидкістю {self.average_clicking_speed} кліків на хвилину."
