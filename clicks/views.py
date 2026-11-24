@@ -2,7 +2,8 @@ from datetime import datetime
 from django.http import HttpRequest, HttpResponse, JsonResponse
 from django.shortcuts import render
 
-from clicks.models import Client
+from .models import Client
+from .actions import seed_data
 
 
 def index(request: HttpRequest) -> HttpResponse:
@@ -11,31 +12,10 @@ def index(request: HttpRequest) -> HttpResponse:
 
 
 def status(request: HttpRequest) -> HttpResponse:
-    # Declare mock data with three users of randomly generated data.
-    users_test_data: list[Client] = [
-        Client(
-            full_name="Alma Banks",
-            total_clicks=515,
-            average_clicking_speed=4.3,
-            last_activity=datetime.now(),
-        ),
-        Client(
-            full_name="Noah Carter",
-            total_clicks=387,
-            average_clicking_speed=70.6,
-            last_activity=datetime.now(),
-        ),
-        Client(
-            full_name="Danny Wright",
-            total_clicks=779,
-            average_clicking_speed=68.8,
-            last_activity=datetime.now(),
-        ),
-    ]
+    # Fill in the database with 3 random objects unless already created
+    seed_data()
     # Define context and add the mock data to it.
-    context = {
-        "users": users_test_data,
-    }
+    context = {"users": Client.objects.all()}
 
     # Render the template.
     return render(request=request, template_name="clicks/status.html", context=context)
